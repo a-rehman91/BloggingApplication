@@ -1,20 +1,14 @@
 package com.api.blog;
 
-import org.apache.naming.java.javaURLContextFactory;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.asm.Advice.This;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.api.blog.config.AppConstants;
 import com.api.blog.entities.Role;
 import com.api.blog.repositories.RoleRepo;
-
-import jakarta.validation.constraints.AssertFalse.List;
 
 @SpringBootApplication
 public class BloggingApplication implements CommandLineRunner {

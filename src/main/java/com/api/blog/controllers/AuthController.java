@@ -1,6 +1,6 @@
 package com.api.blog.controllers;
 
-import org.aspectj.util.GenericSignature.SimpleClassTypeSignature;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.blog.config.AppConstants;
+import com.api.blog.entities.User;
 import com.api.blog.exceptions.ApiException;
 import com.api.blog.payloads.JwtAuthRequest;
 import com.api.blog.payloads.UserDto;
@@ -21,6 +22,8 @@ import com.api.blog.security.CustomUserDetailService;
 import com.api.blog.security.JwtAuthResponse;
 import com.api.blog.security.JwtTokenHelper;
 import com.api.blog.services.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/" + AppConstants.API + "/" + AppConstants.AUTH + "/")
@@ -34,6 +37,8 @@ public class AuthController {
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	ModelMapper modelMapper;
 	
 	@PostMapping("/" + AppConstants.LOGIN)
 	public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception{
@@ -43,9 +48,11 @@ public class AuthController {
 		UserDetails userDetails = this.customUserDetailService.loadUserByUsername(request.getUsername());
 		String token = this.jwtTokenHelper.generateToken(userDetails);
 		
+	
 		JwtAuthResponse response = new JwtAuthResponse();
 		
 		response.setToken(token); 
+		response.setUserDto(this.modelMapper.map((User)userDetails, UserDto.class));
 		
 		return new ResponseEntity<JwtAuthResponse>(response, HttpStatus.OK);
 	}
@@ -66,7 +73,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/" + AppConstants.REGISTER)
-	private ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto){
+	private ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto){
 		
 		UserDto registerUser = this.userService.registerUser(userDto);
 		return new ResponseEntity<UserDto>(registerUser, HttpStatus.OK);

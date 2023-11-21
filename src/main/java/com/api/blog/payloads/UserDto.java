@@ -27,15 +27,15 @@ public class UserDto {
 
 	private int id;
 	
-	@NotEmpty
+	@NotEmpty(message = "Name is required.")
 	@Size(min = 3, message = "Username must be of 3 characters.")
 	private String name;
 	
-	@NotEmpty
+	@NotEmpty(message = "Email is required.")
 	@Email(message = "Email address is not valid.")
 	private String email;
 	
-	@NotEmpty
+	@NotEmpty(message = "Password is required.")
 	@Size(min = 5, message = "Password must be of 5 characters.")
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;

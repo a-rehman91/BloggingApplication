@@ -43,12 +43,12 @@ public class User implements UserDetails{
 	@Column(nullable = false, length = 50)
 	private String name;
 	
-	
+	@Column(unique = true)
 	private String email;
 	private String password;
 	
 	@Column(length = 500)
-	private String about;
+	private String about; 
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Post> posts = new ArrayList<>();

@@ -1,8 +1,5 @@
 package com.api.blog.config;
 
-import org.hibernate.engine.internal.StatisticalLoggingSessionEventListener;
-import org.springframework.security.access.event.PublicInvocationEvent;
-
 public class AppConstants {
 
 	public static final String PAGE_NUMBER = "page_number";
